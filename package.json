@@ -1,0 +1,23 @@
+{
+  "name": "cacert",
+  "version": "1.0.0",
+  "description": "CaCert",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "popper.js": "^1.12.9"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.17.1",
+    "bootstrap-sass": "^3.3.7",
+    "jquery": "^3.3.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "webpack-notifier": "^1.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

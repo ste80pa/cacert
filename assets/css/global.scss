@@ -1,0 +1,32 @@
+// assets/css/global.scss
+
+// customize some Bootstrap variables
+$brand-primary: darken(#428bca, 20%);
+
+// CaCert palette
+
+
+$cacert-gray-0: #cccccc;
+$cacert-gray-1: #F5f7f7;
+$cacert-gray-2: #333333;
+
+$cacert-blue-0: #005fa9;
+$cacert-blue-1: #334d55;
+
+// assets/css/global.scss
+
+ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+
+ // set if you're also including font-awesome
+ $fa-font-path: "~font-awesome/fonts";
+
+ $body-bg: #ffffff;
+ $body-color: #333333;
+ $enable-rounded : false;
+ $enable-shadows: false;
+// the ~ allows you to reference things in node_modules
+@import '~bootstrap/scss/bootstrap';
+
+h2 {
+    color: #005fa9;
+}
