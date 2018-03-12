@@ -1,0 +1,109 @@
+{% extends 'base2columns.html.twig' %}
+{% block title %}CaCert - Root Certificate{% endblock %}
+{% block content %}
+    <div class="card mb-4 my-4">
+        <div class="card-body">
+
+            <h2 class="card-title">Cacert Root Certificate</h2>
+
+            <div class="alert alert-warning" role="alert">
+                <h5 class="alert-heading cacert-alert-heading">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Note: You are bound by the Root Distribution Licence for any re-distributions of CAcert's roots.</h5>
+            </div>
+
+            <h3>Windows Installer</h3>
+            <p>Windows installer package for browsers that use the Windows certificate store (for example Internet Explorer, Chrome on Windows and Safari on Windows)</p>
+            <div>
+                <b>SHA1 Hash:</b>
+                2db1957db31aa0d778d1a65ea146760ee1e67611</div>
+            <div>
+                <b>SHA256 Hash:</b>
+                88883f2e3117bae6f43922fbaef8501b94efe4143c12116244ca5d0c23bcbb16</div>
+            <h3 class="mt-5">Class 1 PKI Key</h3>
+            <ul class="list-unstyled">
+                <li>
+                    <a href="#">Root Certificate (PEM Format)</a>
+                </li>
+                <li>
+                    <a href="#">Root Certificate (DER Format)</a>
+                </li>
+                <li>
+                    <a href="#">Root Certificate (Text Format)</a>
+                </li>
+                <li>
+                    <a href="#">CRL</a>
+                </li>
+            </ul>
+
+            <div>
+                <b>SHA1 Fingerprint:</b>
+                13:5C:EC:36:F4:9C:B8:E9:3B:1A:B2:70:CD:80:88:46:76:CE:8F:33</div>
+            <div>
+                <b>MD5 Fingerprint:</b>
+                A6:1B:37:5E:39:0D:9C:36:54:EE:BD:20:31:46:1F:6B</div>
+            <h3 class="mt-5">Class 3 PKI Key</h3>
+
+            <ul class="list-unstyled">
+                <li>
+                    <a href="#">Intermediate Certificate (PEM Format)</a>
+                </li>
+                <li>
+                    <a href="#">Intermediate Certificate (DER Format)</a>
+                </li>
+                <li>
+                    <a href="#">Intermediate Certificate (Text Format)</a>
+                </li>
+                <li>
+                    <a href="#">CRL</a>
+                </li>
+            </ul>
+
+            <div>
+                <b>SHA1 Fingerprint:</b>
+                AD:7C:3F:64:FC:44:39:FE:F4:E9:0B:E8:F4:7C:6C:FA:8A:AD:FD:CE</div>
+            <div>
+                <b>MD5 Fingerprint:</b>
+                F7:25:12:82:4E:67:B5:D0:8D:92:B7:7C:0B:86:7A:42</div>
+            <h3 class="mt-5">GPG Key</h3>
+            <p>CAcert's GPG Key</p>
+            <div>
+                <b>GPG Key ID:</b>
+                0x65D0FD58</div>
+            <div>
+                <b>Fingerprint:</b>
+                A31D 4F81 EF4E BD07 B456 FA04 D2BB 0D01 65D0 FD58</div>
+            <p>PKI fingerprint signed by the CAcert GPG Key</p>
+            <pre>
+-----begin pgp signed message-----
+hash: sha1
+
+for most software, the fingerprint is reported as:
+a6:1b:37:5e:39:0d:9c:36:54:ee:bd:20:31:46:1f:6b
+
+under msie the thumbprint is reported as:
+135c ec36 f49c b8e9 3b1a b270 cd80 8846 76ce 8f33
+-----begin pgp signature-----
+version: gnupg v1.2.2 (gnu/linux)
+
+id8dbqe/vtrz0rsnawxq/vgraphfaj9jh6tkbdexg0nttuhvdnuf6o9ruqcde5kdmch2lmzhk4h/sbift5rozvu==r/pj
+-----end pgp signature-----
+
+-----begin pgp signed message-----
+hash: sha1
+
+pub  1024d/65d0fd58 2003-07-11 ca cert signing authority (root ca)
+     key fingerprint = a31d 4f81 ef4e bd07 b456  fa04 d2bb 0d01 65d0 fd58
+sub  2048g/113ed0f2 2003-07-11 [expires: 2033-07-03]
+-----begin pgp signature-----
+version: gnupg v1.2.5 (gnu/linux)
+
+id8dbqfcedln0rsnawxq/vgrarhhaj9ey1tjozsvvuy2ll98cokl0vnjjqcfbdbktg1yj+lkktroggyn0hj5sbm==txoj
+-----end pgp signature-----
+</pre>
+
+            <h3 class="mt-5">History</h3>
+            <p>
+                An overview over all CA certificates ever issued can be found in the wiki.</p>
+        </div>
+    </div>
+{% endblock %}

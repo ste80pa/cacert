@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="it" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="1pajW90" resname="Profile">
+        <source>Profile</source>
+        <target>Profilo</target>
+      </trans-unit>
+      <trans-unit id="D_war5l" resname="Your email accounts">
+        <source>Your email accounts</source>
+        <target>Le tue email</target>
+      </trans-unit>
+      <trans-unit id="oKVnSNf" resname="Your client certificates">
+        <source>Your client certificates</source>
+        <target>Certificati client</target>
+      </trans-unit>
+      <trans-unit id="M8I6Frv" resname="Your server certificates">
+        <source>Your server certificates</source>
+        <target>Certificati server</target>
+      </trans-unit>
+      <trans-unit id="5AsT7jM" resname="Your GPG/PGP keys">
+        <source>Your GPG/PGP keys</source>
+        <target>Chiavi GPG/PGP</target>
+      </trans-unit>
+      <trans-unit id="cXkCQ6_" resname="Your domains">
+        <source>Your domains</source>
+        <target>I tuoi domini</target>
+      </trans-unit>
+      <trans-unit id="dKiDoDe" resname="Settings">
+        <source>Settings</source>
+        <target>Impostazioni</target>
+      </trans-unit>
+      <trans-unit id="SPDT05f" resname="Sign out">
+        <source>Sign out</source>
+        <target>Esci</target>
+      </trans-unit>
+      <trans-unit id="j6WHNQ4" resname="Sign In / Join us">
+        <source>Sign In / Join us</source>
+        <target>Accedi / Registrati</target>
+      </trans-unit>
+        <trans-unit id="j5W5NQ4" resname="First name">
+        <source>First name</source>
+        <target>Nome</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

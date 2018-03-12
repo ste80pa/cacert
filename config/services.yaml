@@ -24,5 +24,20 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    
+    cacert.domain_validator:
+        class: App\Validator\DomainValidator
+        arguments: ['@doctrine', '@security.token_storage']
+        public: true
+    cacert.email_validator:
+        class: App\Validator\SecureEmailValidator
+        arguments: ['@doctrine','@security.token_storage']
+        public: true
+    cacert:
+        class: App\Utils\Cacert
+        arguments: ['@doctrine','@twig']
+        public: true

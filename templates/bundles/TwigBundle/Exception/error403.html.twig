@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}CAcert{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="cacert-http-error-code text-center">{{status_code}}</div>
+            <div class="cacert-http-error-text text-center">{{status_text}}</div>
+        </div>    
+    </div>
+{% endblock %}

@@ -1,0 +1,160 @@
+{# templates/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}CaCert{% endblock %}
+
+{% block body %}
+
+<div class="cacert-form">
+
+    <div class="row cacert-group">
+        
+        <div class="col-md-12">
+            <h1 class="text-primary">Join to CaCert</h1>
+        </div>
+
+        <div class="col-md-12 text-justify">
+            <p>By joining CAcert and becoming a member, you agree to the CAcert Community Agreement. Please take a moment now to read that and agree to it; this will be required to complete the process of joining.</p>
+            <p>Warning! This site requires cookies to be enabled to ensure your privacy and security. This site uses session cookies to store temporary values to prevent people from copying and pasting the session ID to someone else exposing their account, personal details and identity theft as a result.</p>
+        </div>
+
+        <div class="col-md-12">
+            <div class="alert alert-warning" role="alert">
+                <h5 class="alert-heading cacert-alert-heading"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Note: Please enter your date of birth and names as they are written in your official documents.</h5>
+                <small class="form-text text-justify">Because CAcert is a certificate authority (CA) people rely on us knowing about the identity of the users of our certificates. So even as we value privacy very much, we need to collect at least some basic information about our members. This is especially the case for everybody who wants to take part in our web of trust.Your private information will be used for internal procedures only and will not be shared with third parties.</small>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="alert alert-warning" role="alert">
+                    <h5 class="alert-heading cacert-alert-heading"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Note: White spaces at the beginning and end of a password will be removed.</h5>
+                    <small class="form-text text-justify">A proper password wouldn't match your name or email at all, it contains at least 1 lower case letter, 1 upper case letter, a number, white space and a misc symbol. You get additional security for being over 15 characters and a second additional point for having it over 30. The system starts reducing security if you include any section of your name, or password or email address or if it matches a word from the english dictionary...</small>
+            </div>
+        </div>
+
+    </div>
+
+    {{ form_start(form) }}
+
+    <div class="row cacert-group">
+         {{form_errors(form)}}
+     
+        <h4 class="col-md-12">Personal informations</h4>
+        <p class="col-md-12 spacer"></p>
+        <div class="col-md-3">
+            {{ form_row(form.firstName)}}
+        </div>
+
+        <div class="col-md-3">
+            {{ form_row(form.middleName) }}
+        </div>
+
+        <div class="col-md-3">
+            {{ form_row(form.lastName) }}
+        </div>
+
+        <div class="col-md-3">
+            {{ form_row(form.nameSuffix) }}
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+            {{ form_label(form.dateOfBirth) }}
+            {{ form_errors(form.dateOfBirth) }}
+                <div class="form-inline">
+                    {{ form_widget(form.dateOfBirth.day) }} <span>&nbsp;/&nbsp;</span>
+                    {{ form_widget(form.dateOfBirth.month) }} <span>&nbsp;/&nbsp;</span>
+                    {{ form_widget(form.dateOfBirth.year) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row cacert-group">
+        <h4 class="col-md-12">Authentication</h4>
+        <p class="col-md-12 spacer">Please note, in the interests of good security, the pass phrase must be made up of an upper case letter, lower case letter, number and symbol.</p>
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email, {'attr':{ 'aria-describedby' : 'emailHelpBlock'}}) }}
+                <small id="emailHelpBlock" class="form-text text-muted">I own or am authorised to control this email address</small>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+            {{ form_label(form.password) }}
+            {{ form_errors(form.password) }}
+            {{ form_widget(form.password) }}
+            <div class="invalid-feedback">Example invalid feedback text</div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.repeatedPassPhrase) }}
+            <div class="invalid-feedback">Example invalid feedback text</div>
+
+        </div>
+    </div>
+
+    <div class="row cacert-group">
+        
+        <h4 class="col-md-12">Lost Pass Phrase Questions</h4>
+        <p class="col-md-12 spacer">Please enter five questions and your responses to be used for security verification.</p>
+        <div class="col-md-6">
+            {{ form_row(form.questions.question1) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.answer1) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.question2) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.answer2) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.question3) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.answer3) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.questions.question4) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.answer4) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.question5) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_row(form.questions.answer5) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p>When you click on next, we will send a confirmation email to the email address you have entered above.</p>
+            {{ form_row(form.agreement) }}
+        </div>
+
+        <div class="col-md-12">
+            {{ form_row(form.next, { 'attr': { 'class' : 'btn-lg btn-primary'}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

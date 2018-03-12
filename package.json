@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "font-awesome": "^4.7.0",
     "popper.js": "^1.12.9"
   },
   "devDependencies": {
@@ -13,6 +14,7 @@
     "jquery": "^3.3.0",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
+    "select2": "^4.0.6-rc.1",
     "webpack-notifier": "^1.5.0"
   },
   "scripts": {

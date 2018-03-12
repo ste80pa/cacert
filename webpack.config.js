@@ -21,7 +21,7 @@ Encore
     .createSharedEntry('vendor', [
         'jquery',
         'bootstrap',
-
+        'select2'
         // you can also extract CSS - this will create a 'vendor.css' file
         // this CSS will *not* be included in page1.css or page2.css anymore
         

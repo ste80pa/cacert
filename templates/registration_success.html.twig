@@ -1,0 +1,12 @@
+{% extends 'base2columns.html.twig' %}
+{% block title %}CaCert{% endblock %}
+{% block content %}
+
+<div class="card mb-4 my-4">
+    <div class="card-body">
+          <h2 class="card-title">Registrasion success</h2>
+          <p class="card-text text-justify">Thank you {{user.getFirstName()}} for joining in the community </p>
+          <p class="card-text text-justify">An email is sent to {{ user.getEmail() }}. Check you email and condifrm your email address.</p>
+    </div>
+</div>
+{% endblock %}

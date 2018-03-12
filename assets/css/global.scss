@@ -1,32 +1,146 @@
-// assets/css/global.scss
-
-// customize some Bootstrap variables
 $brand-primary: darken(#428bca, 20%);
 
 // CaCert palette
-
-
 $cacert-gray-0: #cccccc;
 $cacert-gray-1: #F5f7f7;
 $cacert-gray-2: #333333;
-
 $cacert-blue-0: #005fa9;
 $cacert-blue-1: #334d55;
-
+$cacert-blue-3: #195490;
+$cacert-green-0: #c7ff00;
+$cacert-green-1: #00be00;
 // assets/css/global.scss
 
- $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$body-bg: #ffffff;
+$body-color: #333333;
 
- // set if you're also including font-awesome
- $fa-font-path: "~font-awesome/fonts";
+// theme color
 
- $body-bg: #ffffff;
- $body-color: #333333;
- $enable-rounded : false;
- $enable-shadows: false;
+$primary:       $cacert-blue-3;
+$secondary:    $cacert-blue-3;
+
+$card-cap-bg:   #f8f9fa;
+
+$success:       $cacert-green-1 !default;
+//$info:          $cyan !default;
+//$warning:       $yellow !default;
+//$danger:        $red !default;
+//$light:         $gray-100 !default;
+//$dark:          $gray-800 !default;
+//$font-family-sans-serif:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+//$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+//$font-family-base:            $font-family-sans-serif !default;
+// stylelint-enable value-keyword-case
+
+$font-size-base:              0.75rem;
+
+// borders
+$enable-rounded: true;
+$enable-shadows: false;
+
 // the ~ allows you to reference things in node_modules
+@import '~font-awesome/scss/_variables.scss';
+$fa-font-path: "~font-awesome/fonts";
 @import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome.scss';
+@import '~select2/src/scss/core.scss';
 
 h2 {
-    color: #005fa9;
+    color: $cacert-blue-3;
+}
+
+.cacert-group {
+    margin-bottom: 10px;
+    margin-top:10px;
+    border: 1px dashed #bbb;
+    padding: 10px;
+}
+
+.spacer {
+    padding-bottom: 40px;
+}
+
+h5.cacert-alert-heading {
+    font-size:0.83rem;
+}
+.cacert-form {
+    max-width: 720px;
+    margin: auto;
+}
+
+.cacert-nav {
+    border-bottom: 1px solid #bbb;
+}
+
+.cacert-http-error-code {
+    color: $cacert-blue-3;
+    font-size: 220px;
+}
+
+.cacert-http-error-text
+{
+    color: #333;
+    font-size: 50px;
+}
+
+/*
+*
+*/
+.select2-dropdown ,
+.select2-selection__choice,
+.select2-container--default .select2-selection--single,
+.select2-container--default.select2-container--open.select2-container--below .select2-selection--single, 
+.select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+    border-radius: 0;
+}
+
+.select2-container {
+    min-width: 90px;
+}
+
+input,
+select,
+button,
+textarea,
+:active,
+:visited,
+:hover,
+:focus {
+    background-image: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.form-control-label,
+.col-form-legend ,
+.col-form-label {
+    font-size:0.75rem;
+    font-weight: bold;
+}
+
+legend.required::before ,
+label.required::before {
+    content: '* ';
+    color: red;
+}
+
+ul.donation 
+{
+    padding-left:1em;
+  
+}
+
+.donation li {
+    margin-bottom: 1.5em;
+}
+
+.donation input[type=image] {
+    margin: 10px 0 0 0;
+    border:0;
+}
+
+.profile-dropdown
+{
+    margin-top: -0.25rem;
 }
