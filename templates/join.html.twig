@@ -86,19 +86,10 @@
 
         <div class="col-md-6">
             <div class="form-group">
-            {{ form_label(form.password) }}
-            {{ form_errors(form.password) }}
-            {{ form_widget(form.password) }}
-            <div class="invalid-feedback">Example invalid feedback text</div>
-
+            {{ form_row(form.plainPassword) }}
             </div>
         </div>
 
-        <div class="col-md-6">
-            {{ form_row(form.repeatedPassPhrase) }}
-            <div class="invalid-feedback">Example invalid feedback text</div>
-
-        </div>
     </div>
 
     <div class="row cacert-group">

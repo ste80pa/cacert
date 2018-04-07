@@ -29,14 +29,16 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown10">
                   <h6 class="dropdown-header">{{ app.user.FirstName}} {{app.user.LastName}}</h6>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{path('account_emails')}}">{% trans %}Your email accounts{% endtrans %}</a>
-                  <a class="dropdown-item" href="{{path('account_client_certificates')}}">{% trans %}Your client certificates{% endtrans %}</a>
-                  <a class="dropdown-item" href="{{path('account_server_certificates')}}">{% trans %}Your server certificates{% endtrans %}</a>
-                  <a class="dropdown-item" href="{{path('account_gpg_pgp_keys')}}">{% trans %}Your GPG/PGP keys{% endtrans %}</a>
-                  <a class="dropdown-item" href="{{path('account_domains')}}">{% trans %}Your domains{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{path('account_client_certificates')}}">
+                  <i class="fa fa-certificate" aria-hidden="true"></i>&nbsp;{% trans %}Your client certificates{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{path('account_server_certificates')}}"><i class="fa fa-certificate" aria-hidden="true"></i>&nbsp;{% trans %}Your server certificates{% endtrans %}</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{ path('account_settings') }}">{% trans %}Settings{% endtrans %}</a>
-                  <a class="dropdown-item" href="{{ path('logout') }}">{% trans %}Sign out{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{path('account_emails')}}"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;{% trans %}Your email accounts{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{path('account_gpg_pgp_keys')}}"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;{% trans %}Your GPG/PGP keys{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{path('account_domains')}}"><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;{% trans %}Your domains{% endtrans %}</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ path('account_settings') }}"><i class="fa fa-gear" aria-hidden="true"></i>&nbsp;{% trans %}Settings{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{ path('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;{% trans %}Sign out{% endtrans %}</a>
                 </div>
               </li>
               {% else %}

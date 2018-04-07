@@ -14,7 +14,6 @@ class DomainsType extends AbstractType
     {
         $builder
             ->add('domain')
-            ->add('submit',SubmitType::class)
         ;
     }
 

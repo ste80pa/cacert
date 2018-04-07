@@ -24,7 +24,6 @@ Encore
         'select2'
         // you can also extract CSS - this will create a 'vendor.css' file
         // this CSS will *not* be included in page1.css or page2.css anymore
-        
        // 'bootstrap-sass/assets/stylesheets/_bootstrap.scss'
     ])
 
@@ -47,5 +46,8 @@ Encore
     // .enableVersioning()
 ;
 
-// export the final configuration
+module .rules = [
+        { test: require.resolve("datatables.net-bs"),  use: "imports-loader?this=>window" }
+    ];
 module.exports = Encore.getWebpackConfig();
+

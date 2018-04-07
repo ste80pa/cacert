@@ -1,0 +1,39 @@
+{% use "bootstrap_4_layout.html.twig" %}
+{# https://github.com/symfony/symfony/tree/master/src/Symfony/Bridge/Twig/Resources/views/Form #}
+
+
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    <{{ element|default('div') }} class="form-group" id="{{ id }}_entry">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+
+
+
+{% block language_widget %}
+{% spaceless %}
+<div  {{ block('widget_container_attributes') }}>
+	<div class="form-inline">
+		<div class="form-group mr-2">
+			{{ form_widget(form.lang) }}
+		</div>
+		<div class="form-group mr-2">
+		
+			<button type="button" data-target="#{{id}}_entry" class="cacert-remove-button btn btn-sm btn-primary">
+				<i class="fa fa-remove" aria-hidden="true"></i>
+			</button>
+
+		</div>
+		<div class="form-group">
+			<button type="button" data-target="#{{id}}_entry" class="cacert-add-button btn btn-sm btn-primary">
+				<i class="fa fa-plus" aria-hidden="true"></i>
+			</button>
+		</div>
+	</div>
+</div>
+{% endspaceless %}
+{% endblock %}

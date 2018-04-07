@@ -1,0 +1,14 @@
+{% extends 'base2columns.html.twig' %}
+{% block title %}
+CaCert
+{% endblock %}
+{% block content %}
+
+<div class="row">
+
+	<div class="col-12">Email verificata con successo</div>
+	<div class="col-12">
+		<a href="{{ path('account_emails') }}" class="btn btn-success">{% trans %}verify.email.emails{% endtrans %}</a>
+	</div>
+</div>
+{% endblock %}

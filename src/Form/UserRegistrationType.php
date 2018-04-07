@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 /**
  *
@@ -24,14 +25,16 @@ class UserRegistrationType extends AbstractType
             ->add('middleName', TextType::class, [ 'required'   => false])
             ->add('lastName')
             ->add('nameSuffix', TextType::class, [ 'required'   => false])
-            ->add('password', PasswordType::class, [ 'trim' => true])
-            ->add('repeatedPassPhrase', PasswordType::class, [ 'trim' => true])
+            ->add('plainPassword', RepeatedType::class, [ 'trim' => true])
+           // ->add('repeatedPassPhrase', PasswordType::class, [ 'trim' => true])
             ->add('email')
             ->add('dateOfBirth', BirthdayType::class)
             ->add(
                 'agreement',
+                
                 ChoiceType::class,
                 [
+                    'mapped' => false,
                     'expanded' => true,
                     'multiple' => true,
                     'choices' => [

@@ -3,19 +3,25 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Constraints as CacertAssert;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @link http://wiki.cacert.org/Software/Database/StructureDefined#Email
  * Contains a list of all mail adresses (including the primary one named in the Users table)
  *  associated to user accounts.
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="App\Repository\EmailRepository")
  */
 class Email
 {
     /**
+     * @Groups({"api"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
      */
     private $id;
 
@@ -27,23 +33,35 @@ class Email
     private $user;
 
     /**
+     * @Groups({"api"})
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true,
+     *     checkHost = true
+     * )
+     * @CacertAssert\SecureEmail()
      * @ORM\Column(type="string", name="email", length=255)
+     * 
      */
     private $email;
 
 
     /**
-     * @ORM\Column(type="datetime", name="created",  nullable=true, options={"default"="CURRENT_TIMESTAMP"} )
+     * @Groups({"api"})
+     * @ORM\Column(type="datetime", name="created", nullable=true)
+     * @Assert\DateTime()
      */
     private $created;
 
     /**
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="modified", nullable=true)
      */
     private $modified;
 
     /**
      * Timestamp of deletion, is set if the user deletes the mail address from his/her account.
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="deleted", nullable=true)
      */
     private $deleted;
@@ -51,17 +69,34 @@ class Email
     /**
      * If a new mail address is added the verification hash is stored here until the mail address has been verified.
      * So email.hash = ' ' is a restriction that finds only verified mails.
-     * @ORM\Column(type="string", name="hash", length=50)
+     * @ORM\Column(type="string", name="hash", length=50, nullable=true)
      */
     private $hash;
 
     /**
+     * 
      * For verification process?
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="attempts", length=1, options={"default":0})
      */
     private $attempts = 0;
 
-  
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->created = new \DateTime();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->modified = new \DateTime();
+    }
+    
     /**
      * Get the value of id
      */
@@ -70,17 +105,6 @@ class Email
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get foreign key to table Users, associated account
@@ -130,17 +154,7 @@ class Email
         return $this->created;
     }
 
-    /**
-     * Set the value of created
-     *
-     * @return  self
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
+    
 
     /**
      * Get the value of modified
@@ -151,18 +165,6 @@ class Email
     }
 
     /**
-     * Set the value of modified
-     *
-     * @return  self
-     */
-    public function setModified($modified)
-    {
-        $this->modified = $modified;
-
-        return $this;
-    }
-
-    /**
      * Get timestamp of deletion, is set if the user deletes the mail address from his/her account.
      */
     public function getDeleted()
@@ -170,22 +172,19 @@ class Email
         return $this->deleted;
     }
 
-    /**
-     * Set timestamp of deletion, is set if the user deletes the mail address from his/her account.
-     *
-     * @return  self
-     */
-    public function setDeleted($deleted)
+   /**
+    * 
+    * @return boolean
+    */
+    public function isDeleted() : bool
     {
-        $this->deleted = $deleted;
-
-        return $this;
+        return $this->deleted === null;
     }
 
     /**
      * Get if a new mail address is added the verification hash is stored here until the mail address has been verified.
      */
-    public function getHash()
+    public function getHash() : string
     {
         return $this->hash;
     }
@@ -195,7 +194,7 @@ class Email
      *
      * @return  self
      */
-    public function setHash($hash)
+    public function setHash(string $hash)
     {
         $this->hash = $hash;
 
@@ -227,5 +226,30 @@ class Email
     public function isVerified()
     {
         return empty($this->hash);
+    }
+    
+    /**
+     * 
+     * @param string $hash
+     * @return boolean
+     */
+    public function verify(string $hash = null)
+    {
+
+        if($this->isVerified())
+        {
+            return true;
+        }
+        
+        $this->attempts++;
+        
+        if($this->hash != $hash)
+        {    
+            return false;
+        }
+        
+        $this->hash = null;
+            
+        return true;
     }
 }

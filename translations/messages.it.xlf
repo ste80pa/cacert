@@ -41,9 +41,61 @@
         <source>Sign In / Join us</source>
         <target>Accedi / Registrati</target>
       </trans-unit>
-        <trans-unit id="j5W5NQ4" resname="First name">
+      <trans-unit id="cC75Ie0" resname="First name">
         <source>First name</source>
         <target>Nome</target>
+      </trans-unit>
+      <trans-unit id="ntBTuec" resname="account.settings.password.description">
+        <source>account.settings.password.description</source>
+        <target>Tieni presente che, per ragioni di sicurezza, la password deve contenere lettere maiuscole, minuscole, numeri e simboli (gli spazi all'inizio e alla fine vengono rimossi).</target>
+      </trans-unit>
+      <trans-unit id="haOas0X" resname="Yes">
+        <source>Yes</source>
+        <target>Si</target>
+      </trans-unit>
+      <trans-unit id="f5UpgOp" resname="Web of trust listing">
+        <source>Web of trust listing</source>
+        <target>Elnco Web of trust</target>
+      </trans-unit>
+      <trans-unit id="REXabZy" resname="Update listing info">
+        <source>Update listing info</source>
+        <target>__Update listing info</target>
+      </trans-unit>
+      <trans-unit id="ANsWrwj" resname="Security Questions">
+        <source>Security Questions</source>
+        <target>__Security Questions</target>
+      </trans-unit>
+      <trans-unit id="DPx7MRf" resname="Additional Languages">
+        <source>Additional Languages</source>
+        <target>__Additional Languages</target>
+      </trans-unit>
+      <trans-unit id="KGdng4p" resname="Update languages">
+        <source>Update languages</source>
+        <target>__Update languages</target>
+      </trans-unit>
+      <trans-unit id="9i6SZ9G" resname="Alerts">
+        <source>Alerts</source>
+        <target>__Alerts</target>
+      </trans-unit>
+      <trans-unit id="41I_r27" resname="Update alerts">
+        <source>Update alerts</source>
+        <target>__Update alerts</target>
+      </trans-unit>
+      <trans-unit id="H9lbb86" resname="account.settings.listing.description">
+        <source>account.settings.listing.description</source>
+        <target>Attenzione: tutto l'HTML verrà eliminato dalle informazioni di contatto. Verrà automaticamente inserito un link a un modulo per l'invio di un'e-mail, al fine di proteggere la tua privacy.</target>
+      </trans-unit>
+      <trans-unit id="q0iFdkQ" resname="account.settings.listing.title">
+        <source>account.settings.listing.title</source>
+        <target>Elnco Web of trust</target>
+      </trans-unit>
+      <trans-unit id="DNHsOSk" resname="account.settings.listing.update">
+        <source>account.settings.listing.update</source>
+        <target>Aggiorna</target>
+      </trans-unit>
+      <trans-unit id="VXvg2ru" resname="Update Password">
+        <source>Update Password</source>
+        <target>__Update Password</target>
       </trans-unit>
     </body>
   </file>

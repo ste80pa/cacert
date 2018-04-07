@@ -7,18 +7,23 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * 
  * Contains one record for each registered user.
+ *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements UserInterface, \Serializable
 {
+
     /**
+     * @Groups({"api"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -26,128 +31,158 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
+     * 
      * This is the "SSO-ID" which is included in client certificates if the "Add Single Sign On ID Information"
      * button is selected during certificate creation.
      * This ID is calculated during account creation as a hash of the creation time
      * and 64 byes of random. It is not guaranteed to be unique, but de facto collisions are extremly improbable.
+     * @Groups({"api"})
      * @ORM\Column(type="string", name="uniqueID", length=255, nullable=false, unique=true)
      */
     private $uniqueID;
 
     /**
      * Primary email address of the account.
+     * @Groups({"api"})
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = false,
-     *     checkHost = false
+     *     checkHost = false,
+     *     groups={"registration", "settings"}
      * )
+     * @Assert\Length(max = 255)
      * @ORM\Column(type="string", name="email", length=255, nullable=false, unique=true)
      */
     private $email;
 
     /**
      * Encrypted password.
-     * @Assert\NotBlank()
+     *
+     * @Assert\NotBlank(groups={"registration", "settings"})
      * @ORM\Column(type="string", name="password", length=255, nullable=false)
      */
     private $password;
 
     /**
      * Repeated password.
-     * Assert\NotBlank()
+     *
+     * @Assert\NotBlank(groups={"registration"})
      */
-    private $repeatedPassPhrase;
+    private $plainPassword;
 
     /**
+     * @Groups({"api"})
      * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(type="string", name="fname", length=255)
      */
     private $firstName;
 
     /**
+     * @Groups({"api"})
+     * @Assert\Length(max = 255)
      * @ORM\Column(type="string", name="mname", nullable=true, length=255)
      */
     private $middleName;
 
     /**
+     * Last name
+     * @Groups({"api"})
      * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(type="string", name="lname", length=255)
      */
     private $lastName;
 
     /**
      * Name suffix
+     * @Groups({"api"})
+     * @Assert\Length(max = 255)
      * @ORM\Column(type="string", name="suffix", nullable=true,length=50)
      */
     private $nameSuffix;
 
     /**
      * Date of Birth
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="dob")
      */
     private $dateOfBirth;
 
     /**
      * 1 if probe mail answered
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="verified", options={"dafault":false})
      */
     private $verified = false;
 
     /**
      * country: pointer to countries.id
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="ccid", length=3, nullable=true)
      */
     private $country;
 
     /**
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="regid", length=5, nullable=true )
      */
     private $region;
 
     /**
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="locid", length=7, nullable=true)
      */
     private $location;
 
     /**
      * 1 if published in Assurer List
-     * @ORM\Column(type="boolean", name="listme",options={"default": false})
+     * @Groups({"api"})
+     * @ORM\Column(type="boolean", name="listme", options={"default": false})
      */
     private $listMe = false;
 
     /**
      * Contact info.
+     * @Groups({"api"})
+     * @Assert\Length(max = 255)
      * @ORM\Column(type="string", name="contactinfo", nullable=true, length=255)
      */
     private $contactinfo;
 
     /**
      * 1 if allowed to request code signing certs
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="codesign", options={"default": false})
      */
     private $codesign = false;
 
     /**
      * 1 if user is admin
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="admin", options={"default": false})
      */
     private $admin = false;
 
     /**
-     *  @ORM\Column(type="boolean", name="locked", options={"default": false})
+     * @Groups({"api"})
+     * @ORM\Column(type="boolean", name="locked", options={"default": false})
      */
     private $locked = false;
+
     /**
      * 1 if user is TTP admin, it allows to set the Assurance Method to
      * "Trusted 3rd Parties" and leave some of those checkboxes on the Assurance
      * page unchecked.
      * It does not allow to issue more than the usual maximum points
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="ttpadmin", options={"default": false})
      */
     private $ttpAdmin = false;
 
     /**
      * 1 if user is Org admin
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="orgadmin", options={"default": false})
      */
     private $orgAdmin = false;
@@ -161,41 +196,48 @@ class User implements AdvancedUserInterface, \Serializable
      * "Administrative Increase",
      * "CT Magazine - Germany".
      * Allows issuance of temporary increases if a sponsor (another user with board-flag set) is named.
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="board",options={"default": false})
      */
     private $board = false;
 
     /**
      * 1 if user is tverify admin.
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="tverify", options={"default": false})
      */
     private $tverify = false;
 
     /**
      * 1 if user can administer the location database
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="locadmin", options={"default": false})
      */
     private $locAdmin = false;
 
     /**
      * Preferred language.
+     * @Groups({"api"})
      * @ORM\Column(type="string", name="language", length=5)
      */
     private $language = 'en_US';
 
     /**
      * Something with OneTimePassword.
+     * @Groups({"api"})
      * @ORM\Column(type="smallint", name="otppin", length=4, nullable=true)
      */
     private $otppin;
 
     /**
+     * @Groups({"api"})
      * @ORM\Column(type="string", name="orphash", length=16, nullable=true)
      */
     private $orphash;
 
     /**
      * 0 = none, 1 = submit, 2 = approve
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="adadmin", options={"default": 0})
      */
     private $adadmin = 0;
@@ -204,69 +246,101 @@ class User implements AdvancedUserInterface, \Serializable
      * 1 if user is Assurer (100 Assurance Points plus Challenge).
      * This field is caching only.
      * If performance does not forbid try to select the underlying data instead.
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="assurer", length=2 , options={"default": 0})
      */
-    private $assurer  = 0;
+    private $assurer = 0;
 
     /**
      * 1 if user may not become assurer
+     * @Groups({"api"})
      * @ORM\Column(type="boolean", name="assurer_blocked", options={"default": false})
      */
     private $assurerBlocked = false;
 
     /**
      * When the last failed login attempt for this user was.
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="lastLoginAttempt", nullable=true)
      */
     private $lastLoginAttempt;
 
     /**
      * Timestamp of account creation.
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="created", nullable=true, options={"default"="CURRENT_TIMESTAMP"} )
      */
     private $created;
 
     /**
      * Timestamp of last account modification.
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="modified", nullable=true)
      */
     private $modified;
 
     /**
      * Timestamp of account deletion, is set when the account is "deleted" from the support interface.
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="deleted", nullable=true)
      */
     private $deleted;
 
     /**
+     * @Groups({"api"})
      * @Assert\Type(type="App\Entity\Alerts")
      * @ORM\OneToOne(targetEntity="App\Entity\Alerts", mappedBy="user", cascade={"ALL"})
      */
     private $alerts;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Email", mappedBy="user")
-    * @ORM\OrderBy({"email" = "ASC"})
-    */
+     * @Groups({"api"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Email", mappedBy="user")
+     * @ORM\OrderBy({"email" = "ASC"})
+     */
     private $emails;
 
     /**
+     * @Groups({"api"})
+     * @Assert\Type(type="App\Entity\SecurityQuestions")
+     * @Assert\Valid()
      * @ORM\Embedded(class = "SecurityQuestions", columnPrefix = false)
      */
     private $securityQuestions;
 
     /**
+     * @Groups({"api"})
      * @ORM\OneToMany(targetEntity="App\Entity\AddLang", mappedBy="user", cascade={"ALL"}, orphanRemoval=true)
      */
     private $languages;
 
     /**
+     * @Groups({"api"})
      * @ORM\OneToMany(targetEntity="App\Entity\Domains", mappedBy="user")
      * @ORM\OrderBy({"domain" = "ASC"})
      */
     private $domains;
 
     /**
+     *
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     *
+     * @param mixed $plainPassw
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /**
+     *
      * @return mixed
      */
     public function getDomains()
@@ -275,6 +349,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $domains
      */
     public function setDomains($domains)
@@ -291,40 +366,17 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     *
-     */
-    public function getRepeatedPassPhrase()
-    {
-        return $this->repeatedPassPhrase;
-    }
-
-    /**
-     *
-     */
-    public function setRepeatedPassPhrase($repeatedPassPhrase)
-    {
-        $this->repeatedPassPhrase = $repeatedPassPhrase;
-        return $this;
-    }
-
-    /**
-     *
      */
     public function getAgreement()
-    {
+    {}
 
-    
-    }
+    /**
+     */
+    public function setAgreement($pass)
+    {}
 
     /**
      *
-     */
-    public function setAgreement($pass)
-    {
-            
-    }
-
-    /**
      * @return mixed
      */
     public function getMiddleName()
@@ -333,6 +385,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getLastName()
@@ -341,6 +394,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getNameSuffix()
@@ -349,6 +403,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getContactinfo()
@@ -357,6 +412,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getDateOfBirth()
@@ -365,6 +421,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getVerified()
@@ -373,6 +430,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getListMe()
@@ -381,6 +439,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return boolean
      */
     public function getCodesign()
@@ -389,6 +448,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getAdmin()
@@ -397,6 +457,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getTtpAdmin()
@@ -405,6 +466,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getOrgAdmin()
@@ -413,6 +475,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getBoard()
@@ -421,6 +484,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getTverify()
@@ -429,6 +493,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getLocAdmin()
@@ -437,6 +502,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getLanguage()
@@ -445,6 +511,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getOtppin()
@@ -453,6 +520,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getOrphash()
@@ -461,6 +529,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getAdadmin()
@@ -469,6 +538,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getAssurer()
@@ -477,6 +547,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getAssurerBlocked()
@@ -485,6 +556,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getLastLoginAttempt()
@@ -493,6 +565,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getCreated()
@@ -501,6 +574,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getModified()
@@ -509,6 +583,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @return mixed
      */
     public function getDeleted()
@@ -517,6 +592,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $middleName
      */
     public function setMiddleName($middleName)
@@ -525,6 +601,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $lastName
      */
     public function setLastName($lastName)
@@ -533,6 +610,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $nameSuffix
      */
     public function setNameSuffix($nameSuffix)
@@ -541,6 +619,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $contactinfo
      */
     public function setContactinfo($contactinfo)
@@ -549,6 +628,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $dateOfBirth
      */
     public function setDateOfBirth($dateOfBirth)
@@ -557,6 +637,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $verified
      */
     public function setVerified($verified)
@@ -565,6 +646,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $listMe
      */
     public function setListMe($listMe)
@@ -573,6 +655,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $codesign
      */
     public function setCodesign($codesign)
@@ -581,6 +664,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $admin
      */
     public function setAdmin($admin)
@@ -589,6 +673,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $ttpAdmin
      */
     public function setTtpAdmin($ttpAdmin)
@@ -597,6 +682,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $orgAdmin
      */
     public function setOrgAdmin($orgAdmin)
@@ -605,6 +691,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $board
      */
     public function setBoard($board)
@@ -613,6 +700,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $tverify
      */
     public function setTverify($tverify)
@@ -621,6 +709,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $locAdmin
      */
     public function setLocAdmin($locAdmin)
@@ -629,6 +718,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $language
      */
     public function setLanguage($language)
@@ -637,6 +727,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $otppin
      */
     public function setOtppin($otppin)
@@ -645,6 +736,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $orphash
      */
     public function setOrphash($orphash)
@@ -653,6 +745,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $adadmin
      */
     public function setAdadmin($adadmin)
@@ -661,6 +754,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $assurer
      */
     public function setAssurer($assurer)
@@ -669,6 +763,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $assurerBlocked
      */
     public function setAssurerBlocked($assurerBlocked)
@@ -677,6 +772,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $lastLoginAttempt
      */
     public function setLastLoginAttempt($lastLoginAttempt)
@@ -685,6 +781,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $created
      */
     public function setCreated($created)
@@ -693,6 +790,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $modified
      */
     public function setModified($modified)
@@ -701,6 +799,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @param mixed $deleted
      */
     public function setDeleted($deleted)
@@ -709,16 +808,15 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * @Assert\IsTrue(message="The password cannot match your first name")
+     * Assert\IsTrue(message="The password cannot match your first name", groups={"registration"})
      */
     public function isPasswordValid()
     {
         // check for historical password proposal
-
         if ($this->password === "Fr3d Sm|7h") {
             return false;
         }
-        
+
         // from old function checkpwlight($pwd)
 
         $points = 0;
@@ -727,120 +825,119 @@ class User implements AdvancedUserInterface, \Serializable
         $l = strlen($pwd);
 
         if ($l > 15) {
-            $points++;
+            $points ++;
         }
 
         if ($l > 20) {
-            $points++;
+            $points ++;
         }
-        
+
         if ($l > 25) {
-            $points++;
+            $points ++;
         }
-                
+
         if ($l > 30) {
-            $points++;
+            $points ++;
         }
 
         if (preg_match("/\d/", $pwd)) {
-            $points++;
-        }
-    
-        if (preg_match("/[a-z]/", $pwd)) {
-            $points++;
-        }
-    
-        if (preg_match("/[A-Z]/", $pwd)) {
-            $points++;
-        }
-        
-        if (preg_match("/\W/", $pwd)) {
-            $points++;
-        }
-        
-        if (preg_match("/\s/", $pwd)) {
-            $points++;
+            $points ++;
         }
 
-        $lpwd    = strtolower($pwd);
-        $lemail  = strtolower($this->email);
-        $lfname  = strtolower($this->firstName);
-        $llname  = strtolower($this->lastName);
-        $lmname  = strtolower($this->middleName);
+        if (preg_match("/[a-z]/", $pwd)) {
+            $points ++;
+        }
+
+        if (preg_match("/[A-Z]/", $pwd)) {
+            $points ++;
+        }
+
+        if (preg_match("/\W/", $pwd)) {
+            $points ++;
+        }
+
+        if (preg_match("/\s/", $pwd)) {
+            $points ++;
+        }
+
+        $lpwd = strtolower($pwd);
+        $lemail = strtolower($this->email);
+        $lfname = strtolower($this->firstName);
+        $llname = strtolower($this->lastName);
+        $lmname = strtolower($this->middleName);
         $lsuffix = strtolower($this->nameSuffix);
 
         if (strstr($lpwd, $lemail) !== false) {
-            $points--;
+            $points --;
         }
 
-        if (strstr($lpwd, $lfname)!== false) {
-            $points--;
+        if (strstr($lpwd, $lfname) !== false) {
+            $points --;
         }
-       
-        if (strstr($lpwd, $llname)!== false) {
-            $points--;
+
+        if (strstr($lpwd, $llname) !== false) {
+            $points --;
         }
 
         if (strstr($lemail, $lpwd) !== false) {
-            $points--;
+            $points --;
         }
 
         if (strstr($llname, $lpwd) !== false) {
-            $points--;
+            $points --;
         }
 
         if (strstr($lfname, $lpwd) !== false) {
-            $points--;
+            $points --;
         }
 
-        if (!empty($lmname)) {
-            if (strstr($lpwd, $lmname)!==false) {
-                $points--;
+        if (! empty($lmname)) {
+            if (strstr($lpwd, $lmname) !== false) {
+                $points --;
             }
-            if (strstr($lmname, $lpwd)!==false) {
-                $points--;
+            if (strstr($lmname, $lpwd) !== false) {
+                $points --;
             }
         }
 
-        if (!empty($lsuffix)) {
-            if (strstr($lpwd, $lsuffix)!==false) {
-                $points--;
+        if (! empty($lsuffix)) {
+            if (strstr($lpwd, $lsuffix) !== false) {
+                $points --;
             }
 
-            if (strstr($lsuffix, $lpwd)!== false) {
-                $points--;
+            if (strstr($lsuffix, $lpwd) !== false) {
+                $points --;
             }
         }
 
         $shellpwd = escapeshellarg($lpwd);
         $do = shell_exec("grep -F -- $shellpwd /usr/share/dict/american-english");
-        
+
         if ($do) {
-            $points--;
+            $points --;
         }
 
         return true;
     }
-    
+
     /**
-     *
      */
     public function getUsername()
     {
         return $this->email;
     }
+
     /**
-     *
      */
     public function getSalt()
     {
         return null;
     }
 
-   /**
-    *
-    * @return string
-    */
+    /**
+     *
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
@@ -852,15 +949,15 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getRoles()
     {
-        return ['ROLE_ADMIN'];
+        return [
+            'ROLE_ADMIN'
+        ];
     }
 
     /**
-     *
      */
     public function eraseCredentials()
-    {
-    }
+    {}
 
     /**
      *
@@ -877,8 +974,9 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isAccountNonLocked()
     {
-        return !$this->locked;
+        return ! $this->locked;
     }
+
     /**
      *
      * @return boolean
@@ -898,6 +996,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @see \Serializable::serialize()
      */
     public function serialize()
@@ -910,17 +1009,15 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     *
      * @see \Serializable::unserialize()
      */
     public function unserialize($serialized)
     {
-        list(
-            $this->id,
-            $this->email,
-            $this->password,
-          
-        ) = unserialize($serialized);
+        list ($this->id, $this->email, $this->password, )
+        = unserialize($serialized);
     }
+
     /**
      * Get the value of id
      */
@@ -932,7 +1029,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of id
      *
-     * @return  self
+     * @return self
      */
     public function setId($id)
     {
@@ -940,10 +1037,10 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-   /**
-    *
-    * @return string
-    */
+    /**
+     *
+     * @return string
+     */
     public function getEmail()
     {
         return $this->email;
@@ -951,8 +1048,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      *
-     *
-     * @return  self
+     * @return self
      */
     public function setEmail($email)
     {
@@ -963,7 +1059,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of password
      *
-     * @return  self
+     * @return self
      */
     public function setPassword($password)
     {
@@ -982,7 +1078,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of firstName
      *
-     * @return  self
+     * @return self
      */
     public function setFirstName($firstName)
     {
@@ -1001,7 +1097,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set country: pointer to countries.id
      *
-     * @return  self
+     * @return self
      */
     public function setCountry($country)
     {
@@ -1020,7 +1116,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of region
      *
-     * @return  self
+     * @return self
      */
     public function setRegion($region)
     {
@@ -1039,7 +1135,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of location
      *
-     * @return  self
+     * @return self
      */
     public function setLocation($location)
     {
@@ -1058,7 +1154,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of uniqueID
      *
-     * @return  self
+     * @return self
      */
     public function setUniqueID($uniqueID)
     {
@@ -1077,7 +1173,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of alerts
      *
-     * @return  self
+     * @return self
      */
     public function setAlerts($alerts)
     {
@@ -1097,7 +1193,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set emails
      *
-     * @return  self
+     * @return self
      */
     public function setEmails($emails)
     {
@@ -1117,7 +1213,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set the value of locked
      *
-     * @return  self
+     * @return self
      */
     public function setLocked($locked)
     {
@@ -1126,8 +1222,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-
-     /**
+    /**
      * Get the value of languages
      */
     public function getLanguages()
@@ -1136,7 +1231,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     *
      */
     public function addLanguage($language)
     {
@@ -1145,19 +1239,18 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     *
      */
     public function removeLanguage($language)
     {
-       // $language->setUser(null);
+        // $language->setUser(null);
         $this->languages->removeElement($language);
     }
 
     /**
      * Set the value of languages
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLanguages($languages)
     {
         $this->languages = $languages;
@@ -1165,33 +1258,36 @@ class User implements AdvancedUserInterface, \Serializable
         foreach ($this->languages->getIterator() as $item) {
             $item->setUser($this);
         }
-        
+
         return $this;
     }
 
     /**
-     * 
      */
-    public function getQuestions()
+    public function getSecurityQuestions()
     {
         return $this->securityQuestions;
-
     }
 
-    public function setQuestions(SecurityQuestions $securityQuestions)
+    public function setSecurityQuestions(SecurityQuestions $securityQuestions)
     {
         $this->securityQuestions = $securityQuestions;
         return $this;
     }
+
     /**
+     *
      * @link https://en.gravatar.com/site/implement/images/
-     * Returns the gravatar avatar
-     * @param $size
-     * @param $default 
+     *       Returns the gravatar avatar
+     * @param
+     *            $size
+     * @param
+     *            $default
      * @return string
      */
     public function getGravatarUrl($size = 48, $default = 'mm')
     {
-        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=' .  $size . '&d=' . $default;
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=' . $size . '&d=' .
+            $default;
     }
 }

@@ -1,9 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:trolltech="urn:trolltech:names:ts:document:1.0">
-  <file original="" datatype="plaintext" source-language="en" target-language="en"><body>
-    <trans-unit id="1pajW90">
-      <source xml:space="preserve">Profile</source>
-      <target xml:space="preserve" state="needs-review-translation">Profile</target>
-    </trans-unit>
-  </body></file>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="1pajW90" resname="Profile">
+        <source>Profile</source>
+        <target state="needs-review-translation">Profile</target>
+      </trans-unit>
+      <trans-unit id="P5yZH2O" resname="Change password">
+        <source>Change password</source>
+        <target>__Change password</target>
+      </trans-unit>
+      <trans-unit id="ntBTuec" resname="account.settings.password.description">
+        <source>account.settings.password.description</source>
+        <target>__account.settings.password.description</target>
+      </trans-unit>
+      <trans-unit id="VXvg2ru" resname="Update Password">
+        <source>Update Password</source>
+        <target>__Update Password</target>
+      </trans-unit>
+      <trans-unit id="f5UpgOp" resname="Web of trust listing">
+        <source>Web of trust listing</source>
+        <target>__Web of trust listing</target>
+      </trans-unit>
+      <trans-unit id="REXabZy" resname="Update listing info">
+        <source>Update listing info</source>
+        <target>__Update listing info</target>
+      </trans-unit>
+      <trans-unit id="ANsWrwj" resname="Security Questions">
+        <source>Security Questions</source>
+        <target>__Security Questions</target>
+      </trans-unit>
+      <trans-unit id="DPx7MRf" resname="Additional Languages">
+        <source>Additional Languages</source>
+        <target>__Additional Languages</target>
+      </trans-unit>
+      <trans-unit id="KGdng4p" resname="Update languages">
+        <source>Update languages</source>
+        <target>__Update languages</target>
+      </trans-unit>
+      <trans-unit id="9i6SZ9G" resname="Alerts">
+        <source>Alerts</source>
+        <target>__Alerts</target>
+      </trans-unit>
+      <trans-unit id="41I_r27" resname="Update alerts">
+        <source>Update alerts</source>
+        <target>__Update alerts</target>
+      </trans-unit>
+      <trans-unit id="oKVnSNf" resname="Your client certificates">
+        <source>Your client certificates</source>
+        <target>__Your client certificates</target>
+      </trans-unit>
+      <trans-unit id="M8I6Frv" resname="Your server certificates">
+        <source>Your server certificates</source>
+        <target>__Your server certificates</target>
+      </trans-unit>
+      <trans-unit id="D_war5l" resname="Your email accounts">
+        <source>Your email accounts</source>
+        <target>__Your email accounts</target>
+      </trans-unit>
+      <trans-unit id="5AsT7jM" resname="Your GPG/PGP keys">
+        <source>Your GPG/PGP keys</source>
+        <target>__Your GPG/PGP keys</target>
+      </trans-unit>
+      <trans-unit id="cXkCQ6_" resname="Your domains">
+        <source>Your domains</source>
+        <target>__Your domains</target>
+      </trans-unit>
+      <trans-unit id="dKiDoDe" resname="Settings">
+        <source>Settings</source>
+        <target>__Settings</target>
+      </trans-unit>
+      <trans-unit id="SPDT05f" resname="Sign out">
+        <source>Sign out</source>
+        <target>__Sign out</target>
+      </trans-unit>
+      <trans-unit id="j6WHNQ4" resname="Sign In / Join us">
+        <source>Sign In / Join us</source>
+        <target>__Sign In / Join us</target>
+      </trans-unit>
+      <trans-unit id="H9lbb86" resname="account.settings.listing.description">
+        <source>account.settings.listing.description</source>
+        <target>__account.settings.listing.description</target>
+      </trans-unit>
+      <trans-unit id="q0iFdkQ" resname="account.settings.listing.title">
+        <source>account.settings.listing.title</source>
+        <target>__account.settings.listing.title</target>
+      </trans-unit>
+      <trans-unit id="DNHsOSk" resname="account.settings.listing.update">
+        <source>account.settings.listing.update</source>
+        <target>__account.settings.listing.update</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

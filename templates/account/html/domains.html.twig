@@ -8,13 +8,24 @@ CaCert
 		
 		<h2 class="card-title">Domains</h2>
 		
+		
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
 		<div class="row">
 			<div class="col-12">
-				{{ form_start(form) }}
-				{{ form_errors(form) }}
-				{{ form_end(form) }}
+				{{ form_row(form.domain) }}
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-12">
+			<div class="form-group">
+				<button type="submit" class="btn btn-success">Aggiungi dominio</button>
+				</div>
+			</div>
+		</div>
+        {{ form_end(form) }}
+		
+		
 		
 		<div class="row">
 			<div class="col-12">

@@ -1,0 +1,249 @@
+{% extends 'base2columns.html.twig' %}
+{% block title %}
+CaCert
+{% endblock %}
+{% block content %}
+{% set user = app.user %}
+
+<div class="mr-5 ml-5 mb-5 mt-4">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Settings</li>
+  </ol>
+</nav>
+
+
+<div class="row mt-4 pt-4 border-top">
+
+	<div class="col-md-4">
+		<h4>
+			{% trans from "account" %}
+			settings.password.title
+			{% endtrans %}
+		</h4>
+		<p>{% trans from "account" %}account.settings.profile.description{% endtrans %}</p>
+	</div>
+
+	<div class="col-md-8">
+	
+		<div class="row">
+			<div class="col-12 col-xl-4">
+				<img src="{{ user.GravatarUrl(100) }}" alt=""
+					class="cacert-profile-image">
+			</div>
+
+			<div class="col-12 col-xl-8">
+				<h3 class="cacert-profile-name">
+					{{ user.FirstName}}
+					{{ user.MiddleName}}
+					{{ user.LastName}}
+					{{ user.NameSuffix }}
+				</h3>
+				<p>
+					{{ user.Email}}
+				</p>
+				<p>
+					{{ user.DateOfBirth|localizeddate('long', 'none') }}
+				</p>
+			</div>
+
+			
+		</div>
+	</div>
+</div>
+
+<div class="row mt-4 pt-4 border-top">
+	<div class="col-md-4">
+		<h4>
+			{% trans from "account" %}
+			settings.password.title
+			{% endtrans %}
+		</h4>
+		<p>{% trans from "account" %}account.settings.password.description{% endtrans %}</p>
+	</div>
+
+	<div class="col-md-8">
+		{{ form_start(form_password , {'attr' :{'class' : 'cacert-ajax-form', 'novalidate': 'novalidate'}}) }}
+		{{ form_errors(form_password)}}
+		<div class="row">
+
+			<div class="col-12">
+				{{ form_row(form_password.plainPassword) }}
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-success">
+					{% trans from "account"%}
+					Update Password
+					{% endtrans %}
+				</button>
+			</div>
+		</div>
+		{{ form_end(form_password) }}
+	</div>
+</div>
+
+<div class="row mt-4 pt-4 border-top">
+	<div class="col-md-4">
+		<h4>
+			{% trans %}
+			account.settings.listing.title
+			{% endtrans %}
+		</h4>
+		<p>{% trans %}account.settings.listing.description{% endtrans %}</p>
+	</div>
+	<div class="col-md-8">
+		{{ form_start(form_listing , {'attr' :{'class' : 'cacert-ajax-form', 'novalidate': 'novalidate'}}) }}
+		{{ form_errors(form_listing)}}
+		<div class="row">
+
+			<div class="col-12">
+				{{ form_row(form_listing.listme) }}
+			</div>
+
+			<div class="col-12">
+				{{ form_row(form_listing.contactinfo, {'attr':{'rows' : 5}}) }}
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-success">
+					{% trans %}
+					account.settings.listing.update
+					{% endtrans %}
+				</button>
+			</div>
+		</div>
+		{{ form_end(form_listing) }}
+	</div>
+</div>
+
+
+<div class="row mt-4 pt-4 border-top">
+	<div class="col-md-4">
+		<h4>
+			{% trans %}
+			Security Questions
+			{% endtrans %}
+		</h4>
+	</div>
+
+	<div class="col-md-8">
+		{{ form_start(form_questions , {'attr' :{'class' : 'cacert-ajax-form', 'novalidate': 'novalidate'}}) }}
+		{{ form_errors(form_questions)}}
+		<div class="row">
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.question1) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.answer1) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.question2) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.answer2) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.question3) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.answer3) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.question4) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.answer4) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.question5) }}
+			</div>
+
+			<div class="col-md-6">
+				{{ form_row(form_questions.securityQuestions.answer5) }}
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-success">
+					{% trans %}
+					Update listing info
+					{% endtrans %}
+				</button>
+			</div>
+
+		</div>
+		{{ form_end(form_questions) }}
+	</div>
+</div>
+
+
+
+<div class="row mt-4 pt-4 border-top">
+	<div class="col-md-4">
+		<h4>
+			{% trans %}
+			Additional Languages
+			{% endtrans %}
+		</h4>
+	</div>
+
+	<div class="col-md-8">
+		{{ form_start(form_languages , {'attr' : {'class' : 'cacert-ajax-form','novalidate': 'novalidate'}}) }}
+		{{ form_errors(form_languages)}}
+		<div class="row">
+			<div class="col-md-12 cacert-container-info">
+				{{ form_row(form_languages.languages, {'attr':{'class': "collection-container", 'data-count' : form_languages.languages |length}}) }}
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-success">
+					{% trans %}
+					Update languages
+					{% endtrans %}
+				</button>
+			</div>
+
+		</div>
+		{{ form_end(form_languages) }}
+	</div>
+</div>
+
+<div class="row mt-4 pt-4 border-top">
+	<div class="col-md-4">
+		<h4>
+			{% trans %}
+			Alerts
+			{% endtrans %}
+		</h4>
+	</div>
+
+	<div class="col-md-8">
+		{{ form_start(form_alerts , {'attr' :{'class' : 'cacert-ajax-form', 'novalidate': 'novalidate'}}) }}
+		{{ form_errors(form_alerts)}}
+		<div class="row">
+			<div class="col-md-12">
+				{{ form_row(form_alerts.alerts) }}
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-success">
+					{% trans %}
+					Update alerts
+					{% endtrans %}
+				</button>
+			</div>
+		</div>
+		{{ form_end(form_alerts) }}
+	</div>
+</div>
+</div>
+{% endblock %}

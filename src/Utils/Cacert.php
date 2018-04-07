@@ -4,9 +4,13 @@ namespace App\Utils;
 use App\Entity\Email;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use App\Validator\DomainValidator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Swift_Mailer;
 
 /**
+ *
+ * @author Stefano Pallozzi
+ *        
  */
 class Cacert
 {
@@ -25,78 +29,129 @@ class Cacert
 
     /**
      *
+     * @var UrlGeneratorInterface
+     */
+    private $router;
+
+    /**
+     *
+     * @var Swift_Mailer
+     */
+    private $mailer;
+
+    /**
+     *
      * @param Registry $doctrine
      * @param \Twig_Environment $twig
+     * @param UrlGeneratorInterface $router
+     * @param Swift_Mailer $mailer
      */
-    public function __construct(Registry $doctrine, \Twig_Environment $twig)
+    public function __construct(Registry $doctrine, \Twig_Environment $twig, UrlGeneratorInterface $router,
+        Swift_Mailer $mailer)
     {
         $this->twig = $twig;
         $this->doctrine = $doctrine;
+        $this->router = $router;
+        $this->mailer = $mailer;
     }
 
     /**
+     *
      * Send registration mail templates/emails/registration.html.twig
+     *
+     * @param User $user
      */
-    public function sendRegistrationMail(User $user, Email $email)
+    public function sendRegistrationMail(User $user)
     {
-        $to = $user->getEmail();
-        $message = (new \Swift_Message('Hello Email'))->setFrom('send@example.com')
-            ->setTo($to)
-            ->setBody(
-            $this->twig->render('emails/registration.html.twig',
-                [
-                    'user' => $user,
-                    'email' => $email
-                ]), 'text/html')
-            ->addPart(
-            $this->twig->render('emails/registration.txt.twig',
-                [
-                    'user' => $user,
-                    'email' => $email
-                ]), 'text/plain');
+        /*
+         * $to = $user->getEmail();
+         * $message = (new \Swift_Message('Hello Email'))->setFrom('send@example.com')
+         * ->setTo($to)
+         * ->setBody($this->twig->render('emails/registration.html.twig', [
+         * 'user' => $user,
+         * 'email' => $email
+         * ]), 'text/html')
+         * ->addPart($this->twig->render('emails/registration.txt.twig', [
+         * 'user' => $user,
+         * 'email' => $email
+         * ]), 'text/plain');
+         */
+        // $mailer->send($message);
     }
 
+    /**
+     *
+     * @param Email $email
+     */
+    public function sendEmailVerificationEmail(Email $email)
+    {
+        $emailAddress = $email->getEmail();
+
+        $url = $this->router->generate('verify_email', [
+            'email' => $email->getId(),
+            'hash' => $email->getHash()
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $params = [
+            'url' => $url
+        ];
+
+        $message = (new \Swift_Message('Cacert verification email'))->setFrom('send@example.com')
+            ->setTo($emailAddress)
+            ->setBody($this->twig->render('emails/verification.html.twig', $params), 'text/html');
+        // ->addPart($this->twig->render('emails/verification.txt.twig', $params), 'text/plain')
+        
+
+        $this->mailer->send($message);
+    }
+
+    /**
+     *
+     * @return string[]
+     */
     public static function getTranslations()
     {
         return [
-            "ar" => "&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;",
-            "bg" => "&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;",
-            "cs" => "&#268;e&scaron;tina",
-            "da" => "Dansk",
-            "de" => "Deutsch",
-            "el" => "&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;",
-            "en" => "English",
-            "es" => "Espa&#xf1;ol",
-            "fi" => "Suomi",
-            "fr" => "Fran&#xe7;ais",
-            "hu" => "Magyar",
-            "it" => "Italiano",
-            "ja" => "&#26085;&#26412;&#35486;",
-            "lv" => "Latvie&scaron;u",
-            "nl" => "Nederlands",
-            "pl" => "Polski",
-            "pt" => "Portugu&#xea;s",
-            "pt-br" => "Portugu&#xea;s Brasileiro",
-            "ru" => "&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;",
-            "sv" => "Svenska",
-            "tr" => "T&#xfc;rk&#xe7;e",
-            "zh-cn" => "&#x4e2d;&#x6587;(&#x7b80;&#x4f53;)",
-            "zh-tw" => "&#x4e2d;&#x6587;(&#33274;&#28771;)"
+            'ar' => '&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;',
+            'bg' => '&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;',
+            'cs' => '&#268;e&scaron;tina',
+            'da' => 'Dansk',
+            'de' => 'Deutsch',
+            'el' => '&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;',
+            'en' => 'English',
+            'es' => 'Espa&#xf1;ol',
+            'fi' => 'Suomi',
+            'fr' => 'Fran&#xe7;ais',
+            'hu' => 'Magyar',
+            'it' => 'Italiano',
+            'ja' => '&#26085;&#26412;&#35486;',
+            'lv' => 'Latvie&scaron;u',
+            'nl' => 'Nederlands',
+            'pl' => 'Polski',
+            'pt' => 'Portugu&#xea;s',
+            'pt-br' => 'Portugu&#xea;s Brasileiro',
+            'ru' => '&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;',
+            'sv' => 'Svenska',
+            'tr' => 'T&#xfc;rk&#xe7;e',
+            'zh-cn' => '&#x4e2d;&#x6587;(&#x7b80;&#x4f53;)',
+            'zh-tw' => '&#x4e2d;&#x6587;(&#33274;&#28771;)'
         ];
     }
 
     /**
+     *
+     * @return string
      */
     public function makeHash(): string
     {
         $hash = null;
 
-        if (function_exists("dio_open")) {
-            $rnd = dio_open("/dev/urandom", O_RDONLY);
+        if (function_exists('dio_open')) {
+            $rnd = dio_open('/dev/urandom', O_RDONLY);
             $hash = md5(dio_read($rnd, 64));
             dio_close($rnd);
         } else {
-            $rnd = fopen("/dev/urandom", "r");
+            $rnd = fopen('/dev/urandom', 'r');
             $hash = md5(fgets($rnd, 64));
             fclose($rnd);
         }
@@ -176,46 +231,36 @@ class Cacert
         return $addy;
     }
 
-    public function addEmailAddress($emailAddress)
+    /**
+     *
+     * @param string $emailAddress
+     * @throws \Exception
+     */
+    public function addEmailAddress(string $emailAddress)
     {
-        // $_REQUEST['newemail']
-        if (strstr($emailAddress, "xn--") && $_SESSION['profile']['codesign'] <= 0) {
-            throw new \Exception(null, \Exception::PUNYCODE_NOT_ALLOWED);
-        }
 
-        if (trim(mysql_real_escape_string(stripslashes($_REQUEST['newemail']))) == "") {
-            showheader(_("My CAcert.org Account!"));
-            printf(_("Not a valid email address. Can't continue."));
-            showfooter();
-            exit();
-        }
-        $oldid = 0;
-        $_REQUEST['email'] = trim(mysql_real_escape_string(stripslashes($_REQUEST['newemail'])));
-        if (check_email_exists($_REQUEST['email']) == true) {
-            showheader(_("My CAcert.org Account!"));
-            printf(_("The email address '%s' is already in a different account. Can't continue."),
-                sanitizeHTML($_REQUEST['email']));
-            showfooter();
-            exit();
-        }
-        $checkemail = checkEmail($_REQUEST['newemail']);
-        if ($checkemail != "OK") {
-            showheader(_("My CAcert.org Account!"));
-            if (substr($checkemail, 0, 1) == "4") {
-                echo "<p>" .
-                    _(
-                        "The mail server responsible for your domain indicated a temporary failure. This may be due to anti-SPAM measures, such as greylisting. Please try again in a few minutes.") .
-                    "</p>\n";
-            } else {
-                echo "<p>" .
-                    _(
-                        "Email Address given was invalid, or a test connection couldn't be made to your server, or the server rejected the email address as invalid") .
-                    "</p>\n";
-            }
-            echo "<p>$checkemail</p>\n";
-            showfooter();
-            exit();
-        }
+        /*
+         * $checkemail = checkEmail($_REQUEST['newemail']);
+         * if ($checkemail != "OK") {
+         * showheader(_("My CAcert.org Account!"));
+         * if (substr($checkemail, 0, 1) == "4") {
+         * echo "<p>" .
+         * _(
+         * "The mail server responsible for your domain indicated a temporary failure. This may be due to anti-SPAM
+         * measures, such as greylisting. Please try again in a few minutes.") .
+         * "</p>\n";
+         * } else {
+         * echo "<p>" .
+         * _(
+         * "Email Address given was invalid, or a test connection couldn't be made to your server, or the server
+         * rejected the email address as invalid") .
+         * "</p>\n";
+         * }
+         * echo "<p>$checkemail</p>\n";
+         * showfooter();
+         * exit();
+         * }
+         */
         $hash = make_hash();
         $query = "insert into `email` set `email`='" . $_REQUEST['email'] . "',`memid`='" .
             intval($_SESSION['profile']['id']) . "',`created`=NOW(),`hash`='$hash'";
@@ -365,8 +410,7 @@ class Cacert
 
                     $line = mysql_real_escape_string(trim(strip_tags($line)));
                     $query = "insert into `pinglog` set `when`=NOW(), `email`='$email', `result`='$line'";
-                   
-                    
+
                     if (is_array($_SESSION['profile']))
                         $query .= ", `uid`='" . intval($_SESSION['profile']['id']) . "'";
                     mysql_query($query);

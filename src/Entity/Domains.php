@@ -1,64 +1,97 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator\Constraints as CacertAssert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
+ *
  * @link http://wiki.cacert.org/Software/Database/StructureDefined#Domains
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="App\Repository\DomainsRepository")
  */
 class Domains
 {
+
     /**
+     *
+     * @Groups({"api"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
-    
+
     /**
      * Foreign key to table Users, associated account.
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="domains")
      * @ORM\JoinColumn(name="memid", nullable=true)
      */
     private $user;
-    
+
     /**
+     *
+     * @Groups({"api"})
      * @CacertAssert\Domain()
      * @ORM\Column(type="string", name="domain", length=255)
      */
     private $domain;
-    
+
     /**
+     *
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="created", nullable=true, options={"default"="CURRENT_TIMESTAMP"} )
      */
     private $created;
-    
+
     /**
+     *
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="modified", nullable=true)
      */
     private $modified;
-    
+
     /**
      * Timestamp of deletion, is set if the user deletes the mail address from his/her account.
+     *
+     * @Groups({"api"})
      * @ORM\Column(type="datetime", name="deleted", nullable=true)
      */
     private $deleted;
-    
-    
+
     /**
+     *
      * @ORM\Column(type="string", name="hash", length=50, nullable=true)
      */
     private $hash;
-    
-  
-    
+
     /**
+     *
+     * @Groups({"api"})
      * @ORM\Column(type="integer", name="attempts", length=1,options={"default"=0})
      */
     private $attempts = 0;
+
     /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->created = new \DateTime();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->modified = new \DateTime();
+    }
+    
+    /**
+     *
      * @return mixed
      */
     public function getId()
@@ -67,6 +100,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getUser()
@@ -75,6 +109,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getDomain()
@@ -83,6 +118,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getCreated()
@@ -91,6 +127,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getModified()
@@ -99,6 +136,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getDeleted()
@@ -107,6 +145,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getHash()
@@ -115,6 +154,7 @@ class Domains
     }
 
     /**
+     *
      * @return mixed
      */
     public function getAttempts()
@@ -123,6 +163,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $id
      */
     public function setId($id)
@@ -131,6 +172,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $user
      */
     public function setUser($user)
@@ -139,6 +181,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $domain
      */
     public function setDomain($domain)
@@ -147,6 +190,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $created
      */
     public function setCreated($created)
@@ -155,6 +199,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $modified
      */
     public function setModified($modified)
@@ -163,6 +208,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $deleted
      */
     public function setDeleted($deleted)
@@ -171,6 +217,7 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $hash
      */
     public function setHash($hash)
@@ -179,12 +226,11 @@ class Domains
     }
 
     /**
+     *
      * @param mixed $attempts
      */
     public function setAttempts($attempts)
     {
         $this->attempts = $attempts;
     }
-
-    
 }

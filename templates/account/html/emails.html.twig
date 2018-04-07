@@ -1,0 +1,101 @@
+{% extends 'base2columns.html.twig' %}
+{% block title %}
+CaCert
+{% endblock %}
+{% block content %}
+
+<div class="mr-5 ml-5 mb-5 mt-4">
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Emails</li>
+      </ol>
+    </nav>
+    
+    <div class="row mt-4 pt-4 border-top">
+    
+        <div class="col-md-4">
+    			<h4>{% trans from "account" %}settings.password.title{% endtrans %}</h4>
+    		    <p>{% trans from "account" %}account.settings.profile.description{% endtrans %}</p>
+    	    </div>
+    	    
+        <div class="col-md-8">
+            {{ form_start(form) }}
+		    {{ form_errors(form) }}
+			<div class="row">
+				<div class="col-12">
+				    {{ form_row(form.email) }}
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-12">
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">{% trans %}email.emails.add{% endtrans %}</button>
+				    </div>
+			    </div>
+		    </div>
+		    {{ form_end(form) }}
+	    </div>
+	    
+    </div>
+
+	<div class="row mt-4 pt-4 border-top">
+		
+			<table class="table table-sm table-striped table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">Default</th>
+							<th scope="col">Status</th>
+							<th scope="col">Email</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="row" style="width:1em" class="text-center">
+							<i class="fas fa-check"></i>
+							</td>
+							<td class="text-success">verified</td>
+							<td>{{ app.user.email }}</td>
+							<td></td>
+							<td></td>
+						</tr>
+						{% for email in emails %}
+						<tr>
+							<td scope="row">
+							{% if  email.isVerified %}
+								<button class="btn btn-sm btn-success" data-id="{{ email.id }}">
+									<i class="fa fa-envelope"></i>
+								</button>						
+							{% endif %}
+							</td>
+							{% if email.verified %}
+							<td class="text-success">verified</td>
+							{% else %}
+							<td class="text-danger">not verified</td>
+							{% endif %}
+							<td>{{ email.email }}</td>
+							<td class="text-center">
+							{% if not email.isVerified %}
+								<button class="btn btn-sm btn-link" data-id="{{ email.id }}">
+									<i class="far fa-envelope"></i>
+								</button>
+							{% endif %}
+							</td>
+							<td class="text-center">
+								<button class="btn btn-sm btn-link" data-id="{{ email.id }}">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</td>
+							
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+		
+	</div>
+</div>
+{% endblock %}

@@ -1,3 +1,6 @@
+parameters:
+#    router.request_context.host: localhost
+#    router.request_context.scheme: http
 services:
     _defaults:
         public: true

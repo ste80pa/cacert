@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="it" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="2AtJKjz" resname="settings.password.label">
+        <source>settings.password.label</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="MDgUktK" resname="settings.password.repeat_label">
+        <source>settings.password.repeat_label</source>
+        <target>Ripeti password</target>
+      </trans-unit>
+      <trans-unit id="W3PkMqo" resname="settings.password.title">
+        <source>settings.password.title</source>
+        <target>Cambio password</target>
+      </trans-unit>
+      <trans-unit id="ntBTuec" resname="account.settings.password.description">
+        <source>account.settings.password.description</source>
+        <target>Tieni presente che, per ragioni di sicurezza, la password deve contenere lettere maiuscole, minuscole, numeri e simboli (gli spazi all'inizio e alla fine vengono rimossi).</target>
+      </trans-unit>
+      <trans-unit id="VXvg2ru" resname="Update Password">
+        <source>Update Password</source>
+        <target>Aggiorna Password</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

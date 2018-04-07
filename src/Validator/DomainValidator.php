@@ -11,7 +11,7 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
- *
+ * @link https://www.wordfence.com/blog/2017/04/chrome-firefox-unicode-phishing/
  * @author Stefano Pallozzi
  *        
  */

@@ -2,7 +2,9 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-
+#    router.request_context.host: cacert.org
+#    router.request_context.scheme: https
+    
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -29,6 +31,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
+    cacert.form_utils:
+        class: App\Utils\Form
+        public: true
     cacert.domain_validator:
         class: App\Validator\DomainValidator
         arguments: ['@doctrine', '@security.token_storage']
@@ -37,7 +42,12 @@ services:
         class: App\Validator\SecureEmailValidator
         arguments: ['@doctrine','@security.token_storage']
         public: true
+    cacert.oauth_provider:
+        class: App\Security\User\OAuthProvider
+        arguments: ['@doctrine','@security.token_storage']
+        public: true
+        
     cacert:
         class: App\Utils\Cacert
-        arguments: ['@doctrine','@twig']
+        arguments: ['@doctrine','@twig', '@router', '@mailer']
         public: true
