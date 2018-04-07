@@ -14,3 +14,7 @@
 /public/build/
 .DS_Store
 *.old
+
+yarn-error.log
+*.lock
+*.log
