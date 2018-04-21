@@ -99,7 +99,7 @@ class OAuthProvider implements UserProviderInterface, OAuthAwareUserProviderInte
             
             $user->setPassword($this->passwordEncoder->encodePassword($user, $this->randomString(10)));
             $user->setSecurityQuestions($questions);
-            
+            $user->setUniqueID($this->randomString(10));
             $em = $this->doctrine->getManager();   
             $em->persist($user);
             $em->flush();
