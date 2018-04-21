@@ -44,7 +44,7 @@ services:
         public: true
     cacert.oauth_provider:
         class: App\Security\User\OAuthProvider
-        arguments: ['@doctrine','@security.token_storage']
+        arguments: ['@doctrine','@security.token_storage', '@security.password_encoder']
         public: true
         
     cacert:

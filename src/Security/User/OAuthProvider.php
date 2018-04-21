@@ -6,10 +6,12 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use App\Entity\SecurityQuestions;
 
 /**
  *
@@ -33,14 +35,27 @@ class OAuthProvider implements UserProviderInterface, OAuthAwareUserProviderInte
      */
     private $tokenStorage;
 
+    
+    private  $passwordEncoder;
     /**
      *
      * @param Registry $doctrine
      */
-    public function __construct(Registry $doctrine, TokenStorage $tokenStorage)
+    public function __construct(Registry $doctrine, TokenStorage $tokenStorage, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->doctrine = $doctrine;
         $this->tokenStorage = $tokenStorage;
+        $this->passwordEncoder = $passwordEncoder;
+    }
+    
+    function randomString($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $pieces []= $keyspace[random_int(0, $max)];
+        }
+        return implode('', $pieces);
     }
 
     /**
@@ -57,31 +72,38 @@ class OAuthProvider implements UserProviderInterface, OAuthAwareUserProviderInte
         
         if (null === $user) {
             
-            $user = new User();
             
-          //  $response->getLastName();
-            //$username = $response->getUsername();
-            //$user->setUsername($response->getEmail());
+            $user = new User();
+            $data = $response->getData();
+
+            
+            $questions = new SecurityQuestions();
+            
+            $questions->setQuestion1($this->randomString(10));
+            $questions->setQuestion2($this->randomString(10));
+            $questions->setQuestion3($this->randomString(10));
+            $questions->setQuestion4($this->randomString(10));
+            $questions->setQuestion5($this->randomString(10));
+            
+            $questions->setAnswer1('question 1');
+            $questions->setAnswer2('question 2');
+            $questions->setAnswer3('question 3');
+            $questions->setAnswer4('question 4');
+            $questions->setAnswer5('question 5');
+            
+          
             $user->setEmail($response->getEmail());
-            //$user->setPassword();
             $user->setFirstName($response->getFirstName());
             $user->setLastName($response->getLastName());
-            /*
-            $service = $response->getResourceOwner()->getName();
-            $setter = 'set' . ucfirst($service);
-            $setter_id = $setter . 'Id';
-            $setter_token = $setter . 'AccessToken';
-            // create new user here
-            $user = $this->userManager->createUser();
-            $user->$setter_id($username);
-            $user->$setter_token($response->getAccessToken());
-            // I have set all requested data with the user's username
-            // modify here with relevant data
-            $user->setUsername($username);
-            $user->setEmail($username);
-            $user->setPassword($username);
-            // $user->setEnabled(true);
-            // $this->userManager->updateUser($user);*/
+            $user->setDateOfBirth(new \DateTime());
+            
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $this->randomString(10)));
+            $user->setSecurityQuestions($questions);
+            
+            $em = $this->getDoctrine()->getManager();    
+            $em->persist($user);
+            $em->flush();
+            
             return $user;
         }
         // if user exists - go with the HWIOAuth way
