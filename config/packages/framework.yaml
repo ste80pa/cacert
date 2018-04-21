@@ -48,7 +48,7 @@ hwi_oauth:
             type:                facebook
             client_id:           990144087816823
             client_secret:       d514a13065c98fab2ade6721394f21d2
-            scope:               ["email", "user_birthday"]
+            scope:               "email,user_birthday"
             authorization_url:   "https://www.facebook.com/v2.12/dialog/oauth"
             access_token_url:    "https://graph.facebook.com/v2.12/oauth/access_token"
             revoke_token_url:    "https://graph.facebook.com/v2.12/me/permissions"
