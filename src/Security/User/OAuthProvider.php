@@ -59,9 +59,9 @@ class OAuthProvider implements UserProviderInterface, OAuthAwareUserProviderInte
             
             $user = new User();
             
-            $response->getLastName();
+          //  $response->getLastName();
             //$username = $response->getUsername();
-            $user->setUsername($response->getEmail());
+            //$user->setUsername($response->getEmail());
             $user->setEmail($response->getEmail());
             //$user->setPassword();
             $user->setFirstName($response->getFirstName());
