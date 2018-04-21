@@ -46,13 +46,13 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           990144087816823
-            client_secret:       d514a13065c98fab2ade6721394f21d2
+            client_id:           '%env(FACEBOOK_ID_APP)%'
+            client_secret:       '%env(FACEBOOK_SECRET)%'
             scope:               "email" #user_birthday
             authorization_url:   "https://www.facebook.com/v2.12/dialog/oauth"
             access_token_url:    "https://graph.facebook.com/v2.12/oauth/access_token"
             revoke_token_url:    "https://graph.facebook.com/v2.12/me/permissions"
-            infos_url:           "https://graph.facebook.com/v2.12/me?fields=id,name,email,picture,birthday,first_name,last_name,middle_name,short_name"
+            infos_url:           "https://graph.facebook.com/v2.12/me?fields=id,name,email,picture,birthday,verified,is_verified,first_name,last_name,middle_name,short_name"
             paths:
                 email:          email
             options:

@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    google_maps_key: '%env(GOOGLE_MAPS_KEY)%'
 #    router.request_context.host: cacert.org
 #    router.request_context.scheme: https
     
